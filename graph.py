@@ -9,7 +9,12 @@ class AdjacencyListCell:
         self.next = former_first_adjacent_cell
 
 class Graph:
-    def __init__(self,vertex_number):
+    def __init__(self,vertex_number,type="directed"):
+        valid_types = {"directed","undirected"}
+        if type not in valid_types:
+            raise ValueError("type must be one of %r." % valid_types)
+        self.type = type
+        
         self.vertex_number = vertex_number
         self.graph = [None] * self.vertex_number
         
@@ -17,11 +22,12 @@ class Graph:
         #prepend dest's index to src's adjacency list
         self.graph[src] = AdjacencyListCell(dest,cost,self.graph[src])
         
-        #prepend src's index to dest's adjacency list (undirected graph is assumed)
-        self.graph[dest] = AdjacencyListCell(src,cost,self.graph[dest])
+        if (self.type == "undirected"):
+            #prepend src's index to dest's adjacency list (for undirected graphs)
+            self.graph[dest] = AdjacencyListCell(src,cost,self.graph[dest])
         
     def print_graph(self): 
-        print("<vertex>: <neighbour>(<edge cost>), ...")
+        print("<vertex>: <reachable vertex>(<edge cost>), ...")
         for i in range(self.vertex_number): 
             print("v{}: ".format(i), end="") 
             temp = self.graph[i] 
@@ -32,18 +38,43 @@ class Graph:
             print(" \n",end="")
             
     def export_graphviz(self):
-        string = "strict graph {\nrankdir=LR\n"
-        for i in range(self.vertex_number):
-            temp = self.graph[i]
-            while temp:
-                string += "v" + str(i) + "--" + "v" + str(temp.vertex_id) + " [label=" + str(temp.cost) + "]\n"
-                temp = temp.next
-        string = string + "}"
+        if (self.type == "directed"):
+            string = "digraph {\nrankdir=LR\n"
+            for i in range(self.vertex_number):
+                temp = self.graph[i]
+                while temp:
+                    string += (
+                        "v"
+                        + str(i)
+                        + "->v"
+                        + str(temp.vertex_id)
+                        + " [label="
+                        + str(temp.cost)
+                        + "]\n"
+                    )
+                    temp = temp.next
+            string = string + "}"
+        if (self.type == "undirected"):
+            string = "strict graph {\nrankdir=LR\n"
+            for i in range(self.vertex_number):
+                temp = self.graph[i]
+                while temp:
+                    string += (
+                        "v"
+                        + str(i)
+                        + "--v"
+                        + str(temp.vertex_id)
+                        + " [label="
+                        + str(temp.cost)
+                        + "]\n"
+                    )
+                    temp = temp.next
+            string = string + "}"
         print(string)
             
 if __name__ == "__main__":
     V = 5
-    g = Graph(V) 
+    g = Graph(V,"undirected") 
     g.add_edge(0, 1, 7) 
     g.add_edge(0, 4, 7) 
     g.add_edge(1, 2, 7) 
