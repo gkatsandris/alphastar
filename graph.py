@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+#Undirected graph with edge costs implementation. Includes graphviz format export functionality.
+
 class AdjacencyListCell:
     def __init__(self,adjacent_vertex_id,edge_cost,former_first_adjacent_cell):
         self.vertex_id = adjacent_vertex_id
@@ -29,6 +31,16 @@ class Graph:
                 if (temp): print(",",end="")
             print(" \n",end="")
             
+    def export_graphviz(self):
+        string = "strict graph {\nrankdir=LR\n"
+        for i in range(self.vertex_number):
+            temp = self.graph[i]
+            while temp:
+                string += "v" + str(i) + "--" + "v" + str(temp.vertex_id) + " [label=" + str(temp.cost) + "]\n"
+                temp = temp.next
+        string = string + "}"
+        print(string)
+            
 if __name__ == "__main__":
     V = 5
     g = Graph(V) 
@@ -40,4 +52,4 @@ if __name__ == "__main__":
     g.add_edge(2, 3, 7) 
     g.add_edge(3, 4, 7) 
   
-    g.print_graph()
+    g.export_graphviz()
