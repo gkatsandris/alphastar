@@ -19,13 +19,15 @@ class Graph:
         self.graph[dest] = AdjacencyListCell(src,cost,self.graph[dest])
         
     def print_graph(self): 
+        print("<vertex>: <neighbour>(<edge cost>), ...")
         for i in range(self.vertex_number): 
-            print("Adjacency list of vertex {}\n head".format(i), end="") 
+            print("v{}: ".format(i), end="") 
             temp = self.graph[i] 
             while temp: 
-                print(" -> {} (cost={})".format(temp.vertex_id,temp.cost), end="") 
+                print("v{}({})".format(temp.vertex_id,temp.cost), end="") 
                 temp = temp.next
-            print(" \n")
+                if (temp): print(",",end="")
+            print(" \n",end="")
             
 if __name__ == "__main__":
     V = 5
