@@ -16,21 +16,21 @@ class Graph:
         self.type = type
         
         self.vertex_number = vertex_number
-        self.graph = [None] * self.vertex_number
+        self.vertices = [None] * self.vertex_number
         
     def add_edge(self,src,dest,cost):        
         #prepend dest's index to src's adjacency list
-        self.graph[src] = AdjacencyListCell(dest,cost,self.graph[src])
+        self.vertices[src] = AdjacencyListCell(dest,cost,self.vertices[src])
         
         if self.type == "undirected":
             #prepend src's index to dest's adjacency list (for undirected graphs)
-            self.graph[dest] = AdjacencyListCell(src,cost,self.graph[dest])
+            self.vertices[dest] = AdjacencyListCell(src,cost,self.vertices[dest])
         
     def print_graph(self): 
         print("<vertex>: <reachable vertex>(<edge cost>), ...")
         for i in range(self.vertex_number): 
             print("v{}: ".format(i), end="") 
-            temp = self.graph[i] 
+            temp = self.vertices[i] 
             while temp: 
                 print("v{}({})".format(temp.vertex_id,temp.cost), end="") 
                 temp = temp.next
@@ -41,7 +41,7 @@ class Graph:
         if self.type == "directed":
             string = "digraph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
-                temp = self.graph[i]
+                temp = self.vertices[i]
                 while temp:
                     string += (
                         "v"
@@ -57,7 +57,7 @@ class Graph:
         if self.type == "undirected":
             string = "strict graph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
-                temp = self.graph[i]
+                temp = self.vertices[i]
                 while temp:
                     string += (
                         "v"
