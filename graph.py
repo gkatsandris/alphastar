@@ -22,7 +22,7 @@ class Graph:
         #prepend dest's index to src's adjacency list
         self.graph[src] = AdjacencyListCell(dest,cost,self.graph[src])
         
-        if (self.type == "undirected"):
+        if self.type == "undirected":
             #prepend src's index to dest's adjacency list (for undirected graphs)
             self.graph[dest] = AdjacencyListCell(src,cost,self.graph[dest])
         
@@ -34,11 +34,11 @@ class Graph:
             while temp: 
                 print("v{}({})".format(temp.vertex_id,temp.cost), end="") 
                 temp = temp.next
-                if (temp): print(",",end="")
+                if temp: print(",",end="")
             print(" \n",end="")
             
     def export_graphviz(self):
-        if (self.type == "directed"):
+        if self.type == "directed":
             string = "digraph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
                 temp = self.graph[i]
@@ -54,7 +54,7 @@ class Graph:
                     )
                     temp = temp.next
             string = string + "}"
-        if (self.type == "undirected"):
+        if self.type == "undirected":
             string = "strict graph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
                 temp = self.graph[i]
