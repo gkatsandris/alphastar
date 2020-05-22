@@ -271,7 +271,7 @@ if __name__ == "__main__":
     testgraph.add_edge(4,5,2)
     testgraph.add_edge(2,5,4)
     
-    testgraph.export_graphviz()
+    print(testgraph.export_graphviz())
     
     print(Astar(testgraph,6,5,heuristics))
     
