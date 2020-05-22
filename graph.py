@@ -57,7 +57,7 @@ class Graph:
         if self.type == "undirected":
             string = "strict graph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
-                temp = self.vertices[i]
+                temp = self.vertex_adjacency_lists[i]
                 while temp:
                     string += (
                         "v"
