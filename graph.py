@@ -4,7 +4,7 @@
 
 class AdjacencyListCell:
     def __init__(self,adjacent_vertex_id,edge_cost,former_first_adjacent_cell):
-        self.vertex_id = adjacent_vertex_id
+        self.id = adjacent_vertex_id
         self.cost = edge_cost
         self.next = former_first_adjacent_cell
 
@@ -16,23 +16,23 @@ class Graph:
         self.type = type
         
         self.vertex_number = vertex_number
-        self.vertices = [None] * self.vertex_number
+        self.vertex_adjacency_lists = [None] * self.vertex_number
         
     def add_edge(self,src,dest,cost):        
         #prepend dest's index to src's adjacency list
-        self.vertices[src] = AdjacencyListCell(dest,cost,self.vertices[src])
+        self.vertex_adjacency_lists[src] = AdjacencyListCell(dest,cost,self.vertex_adjacency_lists[src])
         
         if self.type == "undirected":
             #prepend src's index to dest's adjacency list (for undirected graphs)
-            self.vertices[dest] = AdjacencyListCell(src,cost,self.vertices[dest])
+            self.vertex_adjacency_lists[dest] = AdjacencyListCell(src,cost,self.vertex_adjacency_lists[dest])
         
     def print_graph(self): 
         print("<vertex>: <reachable vertex>(<edge cost>), ...")
         for i in range(self.vertex_number): 
             print("v{}: ".format(i), end="") 
-            temp = self.vertices[i] 
+            temp = self.vertex_adjacency_lists[i] 
             while temp: 
-                print("v{}({})".format(temp.vertex_id,temp.cost), end="") 
+                print("v{}({})".format(temp.id,temp.cost), end="") 
                 temp = temp.next
                 if temp: print(",",end="")
             print(" \n",end="")
@@ -41,13 +41,13 @@ class Graph:
         if self.type == "directed":
             string = "digraph {\nrankdir=LR\n"
             for i in range(self.vertex_number):
-                temp = self.vertices[i]
+                temp = self.vertex_adjacency_lists[i]
                 while temp:
                     string += (
                         "v"
                         + str(i)
                         + "->v"
-                        + str(temp.vertex_id)
+                        + str(temp.id)
                         + " [label="
                         + str(temp.cost)
                         + "]\n"
@@ -63,7 +63,7 @@ class Graph:
                         "v"
                         + str(i)
                         + "--v"
-                        + str(temp.vertex_id)
+                        + str(temp.id)
                         + " [label="
                         + str(temp.cost)
                         + "]\n"
