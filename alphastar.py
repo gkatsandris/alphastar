@@ -31,8 +31,11 @@ def Astar(graph,start,dest,heuristic_scores):
         current = vertex
         while current != start:
             path.appendleft(current.id)
+            current = current.previous_vertex
             
         path.appendleft(start)
+        
+        return path
         
     
     heapq.heappush(frontier,FrontierVertex(start,0,None))
@@ -46,23 +49,31 @@ def Astar(graph,start,dest,heuristic_scores):
             edge_cost = temp.cost
             
             if (neighbour_vertex_id not in frontier and neighbour_vertex_id != explored_vertex.id):
-                print(neighbour_vertex_id)
                 heapq.heappush(frontier,FrontierVertex(neighbour_vertex_id,explored_vertex.g + edge_cost,explored_vertex))
                 
             temp = temp.next
+            
+    while frontier:
+        if frontier[0] == dest:
+            return retrace_from(frontier[0])
+        else:
+            explore_frontier_cheapest_vertex()
+    
+    raise Exception("Destination unreachable")
 
 if __name__ == "__main__":
-    V = 5
-    mygraph = graph.Graph(V,"undirected")
-    mygraph.add_edge(0, 1, 1)
-    mygraph.add_edge(0, 4, 1)
-    mygraph.add_edge(1, 2, 1)
-    mygraph.add_edge(1, 3, 1)
-    mygraph.add_edge(1, 4, 1)
-    mygraph.add_edge(2, 3, 1)
-    mygraph.add_edge(3, 4, 1)
-    #mygraph.export_graphviz()
+    #https://en.wikipedia.org/wiki/File:AstarExampleEn.gif
+    #a-0, b-1, c-2, d-3, e-4, f-5
+    testgraph = graph.Graph(7,"undirected")
+    heuristics = [4, 2, 4, 4.5, 2, 0, 5]
+    testgraph.add_edge(0,1,2)
+    testgraph.add_edge(1,2,3)
+    testgraph.add_edge(0,6,1.5)
+    testgraph.add_edge(6,3,2)
+    testgraph.add_edge(3,4,3)
+    testgraph.add_edge(4,5,2)
+    testgraph.add_edge(2,5,4)
+    testgraph.export_graphviz()
     
-    import array
-    heuristics = array.array("i",[0] * V)
-    Astar(mygraph,0,3,heuristics)
+    print(Astar(testgraph,6,5,heuristics))
+    
