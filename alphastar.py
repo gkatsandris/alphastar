@@ -3,12 +3,7 @@ import graph
 import heapq
 import collections
 
-def Astar(graph,start,dest,heuristic_scores):
-    if len(heuristic_scores) != graph.vertex_number:
-            raise ValueError("the amount of heuristic values in the heuristic scores array does not match the number of vertices on the given graph")
-    
-    frontier = []
-    
+def Astar(graph:graph.Graph,start:int,dest:int,heuristic_scores):
     class FrontierVertex:
         def __init__(self,id,g,previous_vertex):
             self.id = id
@@ -36,9 +31,6 @@ def Astar(graph,start,dest,heuristic_scores):
         path.appendleft(start)
         
         return path
-        
-    
-    heapq.heappush(frontier,FrontierVertex(start,0,None))
     
     def explore_frontier_cheapest_vertex():
         explored_vertex = heapq.heappop(frontier)
@@ -53,6 +45,12 @@ def Astar(graph,start,dest,heuristic_scores):
                 
             temp = temp.next
             
+    if len(heuristic_scores) != graph.vertex_number:
+            raise ValueError("the amount of heuristic values in the heuristic scores array does not match the number of vertices on the given graph")
+    
+    frontier = []
+    heapq.heappush(frontier,FrontierVertex(start,0,None))
+    
     while frontier:
         if frontier[0] == dest:
             return retrace_from(frontier[0])
