@@ -95,9 +95,9 @@ class Graph:
         Parameters
         ----------
         src : int
-            Edge starts from here.
+            Edge starts from the vertex with this id.
         dest : int
-            Edge goes here.
+            Edge goes to the vertex with this id.
         cost : float
             An edge's cost is simply an assigned numeric value that symbolises 
             the abstract "cost" of traversing from src to dest.
