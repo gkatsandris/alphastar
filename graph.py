@@ -163,7 +163,7 @@ class Graph:
                         + "->v"
                         + str(temp.id)
                         + " [label="
-                        + str(temp.cost)
+                        + str(round(temp.cost,1))
                         + "]\n"
                     )
                     temp = temp.next
@@ -182,7 +182,7 @@ class Graph:
                         + "--v"
                         + str(temp.id)
                         + " [label="
-                        + str(temp.cost)
+                        + str(round(temp.cost,1))
                         + "]\n"
                     )
                     temp = temp.next

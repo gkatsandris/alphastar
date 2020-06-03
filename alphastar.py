@@ -4,7 +4,7 @@ import heapq
 import collections
 from typing import List,Deque
 
-def Astar(graph: graph.Graph,start: int,dest: int,heuristic_scores: List[float]) -> Deque[int]:
+def Astar(graph: graph.Graph,start: int,dest: int,heuristic_scores: List[float],verbose: bool=False) -> Deque[int]:
     """    
     Implementation of the A* shortest path algorithm.
 
@@ -20,6 +20,8 @@ def Astar(graph: graph.Graph,start: int,dest: int,heuristic_scores: List[float])
     heuristic_scores : List[float]
         List containing heuristic values for each vertex in the 
         vertex_adjacency_lists list.
+    verbose : bool
+        Flag to print the frontier every time a new vertex is explored.
 
     Raises
     ------
@@ -135,7 +137,7 @@ def Astar(graph: graph.Graph,start: int,dest: int,heuristic_scores: List[float])
 
             """
             
-            return "v" + str(self.id) + "(" + str(self.f) + ")"
+            return "v" + str(self.id) + "(" + str(round(self.f,1)) + ")"
 
         def retrace_from_here(self) -> Deque[int]:
             """
@@ -253,6 +255,7 @@ def Astar(graph: graph.Graph,start: int,dest: int,heuristic_scores: List[float])
             the frontier vertices are explored is decided by their f score.
             """
             explore_frontier_cheapest_vertex()
+            if (verbose): print(frontier)
     
     raise Exception("Destination unreachable")
 
@@ -273,5 +276,5 @@ if __name__ == "__main__":
     
     print(testgraph.export_graphviz())
     
-    print(Astar(testgraph,6,5,heuristics))
+    print(Astar(testgraph,6,5,heuristics,True))
     
